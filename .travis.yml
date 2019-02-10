@@ -1,0 +1,12 @@
+## every time that we push some code to github, travis will run this file to tell us if our test suit succeded or failed
+sudo: required
+services:
+  - docker
+
+before_install:
+  # setup that needs to run either before the test suit or the deploy process
+  - docker build -t fabi0brito/docker-react -f Dockerfile.dev .
+
+script:
+  # testing the application, if failed return 0
+  - docker run fabi0brito/docker-react npm run test -- --coverage
