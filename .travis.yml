@@ -8,5 +8,19 @@ before_install:
   - docker build -t fabi0brito/docker-react -f Dockerfile.dev .
 
 script:
-  # testing the application, if failed return 0
+  # testing the application
+  # status code 0 means that everything went successfully
   - docker run fabi0brito/docker-react npm run test -- --coverage
+
+deploy: 
+  provider: elasticbeanstalk
+  region: "us-east-1"
+  app: "docker-react"
+  env: "DockerReact-env"
+  bucket_name: "elasticbeanstalk-us-east-1-398599148408"
+  bucket_path: "docker-react"
+  on: 
+    branch: master
+    access_key_id: $AWS_ACCESS_KEY
+    secret_access_key: 
+      secure: "$AWS_ACCESS_KEY"
